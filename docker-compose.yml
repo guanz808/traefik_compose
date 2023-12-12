@@ -21,6 +21,8 @@ services:
     volumes:
       - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - infrastructure_frontend  
 
   whoami:
     image: "traefik/whoami"
@@ -30,3 +32,8 @@ services:
       - "traefik.http.routers.whoami.rule=Host(`whoami.dajays.com`)"
       - "traefik.http.routers.whoami.entrypoints=websecure"
       - "traefik.http.routers.whoami.tls.certresolver=myresolver"
+
+networks:
+  infrastructure_frontend:
+    external: true
+    name: infrastructure_frontend
