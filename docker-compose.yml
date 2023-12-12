@@ -22,7 +22,7 @@ services:
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       # Enable ACME (Let's Encrypt): automatic SSL.
-      - "--certificatesresolvers.letsencrypt.acme.email=${EMAIL}"
+      - "--certificatesresolvers.letsencrypt.acme.email=jiwanaga@hotmail.com"
       - "--certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/acme/acme.json"
       - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
       - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
@@ -44,7 +44,7 @@ services:
       #  to enable the http entrypoint.
       - "traefik.http.routers.dashboard-http.entrypoints=web"
       # The domain we want to listen to
-      - "traefik.http.routers.dashboard-http.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.dashboard-http.rule=Host(`dashbaord.dajays.com`)"
       # We need to attach the api@internal service to the dashboard-http router
       #  in order for the dashboard to be able to access the api (I think 🙈)
       - "traefik.http.routers.dashboard-http.service=api@internal"
@@ -52,7 +52,7 @@ services:
       # Enable the https entrypoint
       - "traefik.http.routers.dashboard.entrypoints=websecure"
       # The domain we want to listen to
-      - "traefik.http.routers.dashboard.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.dashboard.rule=Host(`dashboard.dajays.com`)"
       # We want to obtain a certificate through Let's Encrypt
       - "traefik.http.routers.dashboard.tls=true"
       - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
