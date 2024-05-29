@@ -1,75 +1,43 @@
-version: '3.8'
-
-# Setup the network for the reverse proxy. 
-# All containers will be connected to this network.
-networks:
-  infrastructure_frontend:
-    external: true
-    name: infrastructure_frontend
-
+---
+#networks:
+#  frontend:
+#    external: true
+#  backend:
+#    external: true
 services:
   traefik:
-    image: traefik:latest
-    restart: always
-    command:
-      # We are going to use the docker provider
-      - "--providers.docker"
-      # Only enabled containers should be exposed
-      - "--providers.docker.exposedByDefault=false"
-      # We want to use the dashbaord
-      - "--api.dashboard=true"
-      # The entrypoints we ant to expose
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      # Enable ACME (Let's Encrypt): automatic SSL.
-      - "--certificatesresolvers.letsencrypt.acme.email=jiwanaga@hotmail.com"
-      - "--certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/acme/acme.json"
-      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
-      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
-      # Global redirect to https
-      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
-      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+    container_name: traefik-prod-1
+    image: traefik:2.10.4
     ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080"
+      - 80:80
+      - 443:443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      # The acme.json file is required by Let's Encrypt
-      - ./letsencrypt/acme.json:/etc/traefik/acme/acme.json
-    labels:
-      # Since we don't expose containers per default we also need to enable traefik to expose the dashboard.
-      - "traefik.enable=true"
-      # http
-      # Since we are using the http challenge we and use the redirect we need 
-      #  to enable the http entrypoint.
-      - "traefik.http.routers.dashboard-http.entrypoints=web"
-      # The domain we want to listen to
-      - "traefik.http.routers.dashboard-http.rule=Host(`dashbaord.dajays.com`)"
-      # We need to attach the api@internal service to the dashboard-http router
-      #  in order for the dashboard to be able to access the api (I think 🙈)
-      - "traefik.http.routers.dashboard-http.service=api@internal"
-      # https
-      # Enable the https entrypoint
-      - "traefik.http.routers.dashboard.entrypoints=websecure"
-      # The domain we want to listen to
-      - "traefik.http.routers.dashboard.rule=Host(`dashboard.dajays.com`)"
-      # We want to obtain a certificate through Let's Encrypt
-      - "traefik.http.routers.dashboard.tls=true"
-      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
-      # We need to attach the api@internal service to the dashboard router
-      #  in order for the dashboard to be able to access the api (I think 🙈)
-      - "traefik.http.routers.dashboard.service=api@internal"
-    networks:
-      - infrastructure_frontend  
+      - ./config/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./config/conf/:/etc/traefik/conf/
+      - ./config/certs/:/etc/traefik/certs/
+    #environment:
+    #  - CF_DNS_API_TOKEN=$CF_DNS_API_TOKEN # not needed with TLS challange
+    #networks:
+    #  - frontend
+    #  - backend
+    restart: unless-stopped
 
   whoami:
-    image: "traefik/whoami"
+    image: nginx #"traefik/whoami"
     container_name: "simple-service"
+    ports:
+      - "8081:80"
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`whoami.$DOMAIN`)"
-      - "traefik.http.routers.whoami.entrypoints=websecure"
-      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
-    networks:
-      - infrastructure_frontend 
+      traefik.enable: "true"
+      #traefik.http.services.whoami.loadbalancer.server.port: "8081"
+      #traefik.http.services.whoami.loadbalancer.server.scheme: "https"
+      ##traefik.http.routers.whoami-http.entrypoints: "web"
+      ##traefik.http.routers.whoami-http.rule: "Host(`whoami.dajays.com`)"
+      traefik.http.routers.whoami-https.entrypoints: "websecure"
+      traefik.http.routers.whoami-https.rule: "Host(`whoami.dajays.com`)"
+      ##traefik.http.routers.whoami-https.tls: "true"
+      traefik.http.routers.whoami-https.tls.certresolver: "myresolver"
+    #networks:
+    #  - infrastructure_frontend 
+
