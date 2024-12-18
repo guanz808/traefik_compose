@@ -23,8 +23,22 @@ fi
 ###################################################################################
 ## Drcrypt the .env file
 ###################################################################################
-if ! command -v age &> /dev/null; then
-  echo -e"${red}Age is not installed. Installing..."
-  # Install age using your package manager 
+#!/bin/bash
+
+# Check if age is installed
+echo "${green}Checking if age is installed..."
+
+if command -v age &> /dev/null; then
+  echo "${green}Age is already installed. Version:"
+  age --version
+else
+  echo "${red}Age is not installed. Installing..."
   sudo apt-get update && sudo apt-get install -y age
+  echo "${green}Installation complete. Verifying age installation..."
+  if command -v age &> /dev/null; then
+    echo "${green}Age installation successful. Version:"
+    age --version
+  else
+    echo "${red}Error: Age installation failed."
+  fi
 fi
