@@ -1,75 +1,56 @@
-version: '3.8'
-
-# Setup the network for the reverse proxy. 
-# All containers will be connected to this network.
-networks:
-  infrastructure_frontend:
-    external: true
-    name: infrastructure_frontend
-
+---
 services:
   traefik:
-    image: traefik:latest
-    restart: always
-    command:
-      # We are going to use the docker provider
-      - "--providers.docker"
-      # Only enabled containers should be exposed
-      - "--providers.docker.exposedByDefault=false"
-      # We want to use the dashbaord
-      - "--api.dashboard=true"
-      # The entrypoints we ant to expose
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      # Enable ACME (Let's Encrypt): automatic SSL.
-      - "--certificatesresolvers.letsencrypt.acme.email=jiwanaga@hotmail.com"
-      - "--certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/acme/acme.json"
-      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
-      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
-      # Global redirect to https
-      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
-      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+    image: traefik:v3.0
+    container_name: traefik
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - frontend
     ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080"
+      - 80:80
+      - 443:443
+      # - 443:443/tcp # Uncomment if you want HTTP3
+      # - 443:443/udp # Uncomment if you want HTTP3
+    command:
+      - "--certificatesresolvers.myresolver.acme.email=${CF_API_EMAIL}"
+    environment:
+      CF_DNS_API_TOKEN_FILE: /run/secrets/cf_api_token # note using _FILE for docker secrets
+      # CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN} # if using .env
+      TRAEFIK_DASHBOARD_CREDENTIALS: ${TRAEFIK_DASHBOARD_CREDENTIALS}
+      CF_API_EMAIL: ${CF_API_EMAIL}
+      DOMAIN: ${DOMAIN}  
+    secrets:
+      - cf_api_token
+    env_file: .env # use .env
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      # The acme.json file is required by Let's Encrypt
-      - ./letsencrypt/acme.json:/etc/traefik/acme/acme.json
+      - ./data/traefik.yml:/traefik.yml:ro
+      - ./data/acme.json:/acme.json
+      # - ./data/config.yml:/config.yml:ro
     labels:
-      # Since we don't expose containers per default we also need to enable traefik to expose the dashboard.
       - "traefik.enable=true"
-      # http
-      # Since we are using the http challenge we and use the redirect we need 
-      #  to enable the http entrypoint.
-      - "traefik.http.routers.dashboard-http.entrypoints=web"
-      # The domain we want to listen to
-      - "traefik.http.routers.dashboard-http.rule=Host(`dashbaord.dajays.com`)"
-      # We need to attach the api@internal service to the dashboard-http router
-      #  in order for the dashboard to be able to access the api (I think 🙈)
-      - "traefik.http.routers.dashboard-http.service=api@internal"
-      # https
-      # Enable the https entrypoint
-      - "traefik.http.routers.dashboard.entrypoints=websecure"
-      # The domain we want to listen to
-      - "traefik.http.routers.dashboard.rule=Host(`dashboard.dajays.com`)"
-      # We want to obtain a certificate through Let's Encrypt
-      - "traefik.http.routers.dashboard.tls=true"
-      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
-      # We need to attach the api@internal service to the dashboard router
-      #  in order for the dashboard to be able to access the api (I think 🙈)
-      - "traefik.http.routers.dashboard.service=api@internal"
-    networks:
-      - infrastructure_frontend  
+      - "traefik.http.routers.traefik.entrypoints=http"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN}`)"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_DASHBOARD_CREDENTIALS}"
+      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
+      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
+      - "traefik.http.routers.traefik-secure.entrypoints=https"
+      - "traefik.http.routers.traefik-secure.rule=Host(`traefik.${DOMAIN}`)"
+      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
+      - "traefik.http.routers.traefik-secure.tls=true"
+      - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].main=${DOMAIN}"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.${DOMAIN}"
+      - "traefik.http.routers.traefik-secure.service=api@internal"
 
-  whoami:
-    image: "traefik/whoami"
-    container_name: "simple-service"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`whoami.$DOMAIN`)"
-      - "traefik.http.routers.whoami.entrypoints=websecure"
-      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
-    networks:
-      - infrastructure_frontend 
+secrets:
+  cf_api_token:
+    file: ./cf_api_token.txt
+
+networks:
+  frontend:
+    external: true
