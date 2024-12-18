@@ -78,6 +78,7 @@ fi
 echo -e "${green}Checking for acme.json file in /data...${reset}"
 cd $TRAEFIK_COMPOSE_DIR/data
 pwd
+
 if [ -f "acme.json" ]; then
   echo -e "${green}acme.json file already exists in /data.${reset}"
 else
