@@ -47,7 +47,7 @@ fi
 # Check if .env-encrypted file exists
 echo -e "${green}Checking for .env-encrypted file...${reset}"
 cd $TRAEFIK_COMPOSE_DIR
-
+pwd
 if [ -f ".env-encrypted" ]; then
   echo -e "${green}.env-encrypted file found! Decrypting...${reset}"
   age -d .env-encrypted > .env
@@ -62,7 +62,7 @@ fi
 # Check if cf_api_token.txt-encrypted file exists
 echo -e "${green}Checking for cf_api_token.txt-encrypted file...${reset}"
 cd $TRAEFIK_COMPOSE_DIR
-
+pwd
 if [ -f "cf_api_token.txt-encrypted" ]; then
   echo -e "${green}cf_api_token.txt-encrypted file found! Decrypting...${reset}"
   age -d cf_api_token.txt-encrypted > cf_api_token.txt
