@@ -4,6 +4,5 @@
 
 # Docker Secrets, Environment Files
 **/.env
-
 **/cf_api_token.txt
 **/acme.json
