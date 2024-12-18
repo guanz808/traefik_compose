@@ -94,7 +94,7 @@ echo -e "$Permissions set to 600 successfully.${reset}"
 
 # Verify permissions
 echo -e "${green}Verifying permissions...${reset}"
-ls -l acme.json | grep "rw-------"
+ls -l acme.json | grep "-rw-------"
 if [ $? -eq 0 ]; then
   echo -e "${green}Permissions verified successfully.${reset}"
 else
