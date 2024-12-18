@@ -94,11 +94,10 @@ echo -e "$Permissions set to 600 successfully.${reset}"
 
 # Verify permissions
 echo -e "${green}Verifying permissions...${reset}"
-ls -l acme.json | grep "-rw-------"
-if [ $? -eq 0 ]; then
-  echo -e "${green}Permissions verified successfully.${reset}"
+if [ "$(stat -c '%a' acme.json)" = "600" ]; then
+  echo -e "${green}File has 600 permissions${reset}"
 else
-  echo -e "${red}Error: Permissions not set correctly.${reset}"
+  echo -e "${red}File does not have 600 permissions${reset}"
 fi
 
 ###################################################################################
