@@ -63,7 +63,7 @@ echo -e "${green}Checking for cf_api_token.txt-encrypted file...${reset}"
 
 if [ -f "cf_api_token.txt-encrypted" ]; then
   echo -e "${green}cf_api_token.txt-encrypted file found! Decrypting...${reset}"
-  age -d cf_api_token.txt-encrypted > cf_api_token.txt
+  decrypt: age -d cf_api_token.txt-encrypted > cf_api_token.txt
   echo -e "${green}Decryption successful! cf_api_token.txt file generated.${reset}"
 else
   echo -e "${red}Error: cf_api_token.txt-encrypted file not found.${reset}"
