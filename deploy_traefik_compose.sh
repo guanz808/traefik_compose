@@ -21,7 +21,7 @@ else
 fi
 
 ###################################################################################
-## Drcrypt the .env file
+## Install age (if not already present) - age is used to encrypt/decrypt files
 ###################################################################################
 # Check if age is installed
 echo -e "${green}Checking if age is installed...${reset}"
@@ -39,4 +39,18 @@ else
   else
     echo -e "${red}Error: Age installation failed.${reset}"
   fi
+fi
+
+###################################################################################
+## Drcrypt the .env file
+###################################################################################
+# Check if .env-encrypted file exists
+echo -e "${green}Checking for .env-encrypted file...${reset}"
+
+if [ -f ".env-encrypted" ]; then
+  echo -e "${green}.env-encrypted file found! Decrypting...${reset}"
+  age --decrypt --output .env .env-encrypted
+  echo -e "${green}Decryption successful! .env file generated.${reset}"
+else
+  echo -e "${red}Error: .env-encrypted file not found.${reset}"
 fi
