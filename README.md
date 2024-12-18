@@ -41,6 +41,13 @@ This script does the following:
 * clones the traefik_compose GitHub repository to the local computer  
 * decrypts the .env-encrypted and cf_api_token.txt-encrtpted files  
 * starts the docker compose stack 
+
+deploy_traefik_compose.sh 
+```
+wget -O - https://raw.githubusercontent.com/guanz808/traefik_compose/main/deploy_traefik_compose.sh | bash
+```
+
+
 ### Start the stack
 `docker compose up -d --force-recreate`
 
