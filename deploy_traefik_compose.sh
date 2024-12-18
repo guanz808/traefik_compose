@@ -26,19 +26,19 @@ fi
 #!/bin/bash
 
 # Check if age is installed
-echo "${green}Checking if age is installed..."
+echo -e "${green}Checking if age is installed..."
 
 if command -v age &> /dev/null; then
-  echo "${green}Age is already installed. Version:"
+  echo -e "${green}Age is already installed. Version:"
   age --version
 else
-  echo "${red}Age is not installed. Installing..."
+  echo -e "${red}Age is not installed. Installing..."
   sudo apt-get update && sudo apt-get install -y age
-  echo "${green}Installation complete. Verifying age installation..."
+  echo -e "${green}Installation complete. Verifying age installation..."
   if command -v age &> /dev/null; then
-    echo "${green}Age installation successful. Version:"
+    echo -e "${green}Age installation successful. Version:"
     age --version
   else
-    echo "${red}Error: Age installation failed."
+    echo -e "${red}Error: Age installation failed."
   fi
 fi
