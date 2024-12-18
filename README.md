@@ -8,8 +8,8 @@ Reference: https://technotim.live/posts/traefik-3-docker-certificates/#links
 1. Traefik Dashboard Password & .env
     1. Create the password if needed
         1. Install htpasswd on linux to generate the base64 password  
-           `sudo apt update`
-           `sudo apt install apache2-utils`
+           `sudo apt update`  
+           `sudo apt install apache2-utils`  
     
         1. Generate the credential pair
         `echo $(htpasswd -nB admin) | sed -e s/\\$/\\$\\$/g`
