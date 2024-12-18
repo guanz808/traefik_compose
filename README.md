@@ -9,7 +9,7 @@ Reference: https://technotim.live/posts/traefik-3-docker-certificates/#links
            `sudo apt update`  
            `sudo apt install apache2-utils`  
     
-        1. Generate the credential pair
+        1. Generate the credential pair  
         `echo $(htpasswd -nB admin) | sed -e s/\\$/\\$\\$/g`
         1. Add the variables to the .env file
         .env file
