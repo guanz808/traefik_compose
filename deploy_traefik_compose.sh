@@ -19,3 +19,12 @@ else
   echo -e "${green}The git repository $TRAEFIK_COMPOSE_DIR already exists. Updating...${reset}"
   git -C $TRAEFIK_COMPOSE_DIR pull origin main #--quiet 
 fi
+
+###################################################################################
+## Drcrypt the .env file
+###################################################################################
+if ! command -v age &> /dev/null; then
+  echo -e"${red}Age is not installed. Installing..."
+  # Install age using your package manager 
+  sudo apt-get update && sudo apt-get install -y age
+fi
