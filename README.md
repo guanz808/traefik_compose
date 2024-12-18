@@ -35,7 +35,12 @@ age -d cf_api_token.txt-encrtpted  > cf_api_token.txt
 ```
 
 # Deploy
+### deploy_traefik_compose.sh
 git clone https://github.com/guanz808/traefik_compose.git
+This script does the following:
+* clones the traefik_compose GitHub repository to the local computer  
+* decrypts the .env-encrypted and cf_api_token.txt-encrtpted files  
+* starts the docker compose stack 
 ### Start the stack
 `docker compose up -d --force-recreate`
 
