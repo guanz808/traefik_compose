@@ -46,10 +46,11 @@ fi
 ###################################################################################
 # Check if .env-encrypted file exists
 echo -e "${green}Checking for .env-encrypted file...${reset}"
+cd $TRAEFIK_COMPOSE_DIR
 
-if [ -f "/$TRAEFIK_COMPOSE_DIR/.env-encrypted" ]; then
+if [ -f ".env-encrypted" ]; then
   echo -e "${green}.env-encrypted file found! Decrypting...${reset}"
-  age -d /$TRAEFIK_COMPOSE_DIR/.env-encrypted > .env
+  age -d .env-encrypted > .env
   echo -e "${green}Decryption successful! .env file generated.${reset}"
 else
   echo -e "${red}Error: .env-encrypted file not found.${reset}"
@@ -60,10 +61,11 @@ fi
 ###################################################################################
 # Check if cf_api_token.txt-encrypted file exists
 echo -e "${green}Checking for cf_api_token.txt-encrypted file...${reset}"
+cd $TRAEFIK_COMPOSE_DIR
 
-if [ -f "/$TRAEFIK_COMPOSE_DIR/cf_api_token.txt-encrypted" ]; then
+if [ -f "cf_api_token.txt-encrypted" ]; then
   echo -e "${green}cf_api_token.txt-encrypted file found! Decrypting...${reset}"
-  age -d /$TRAEFIK_COMPOSE_DIR/cf_api_token.txt-encrypted > cf_api_token.txt
+  age -d cf_api_token.txt-encrypted > cf_api_token.txt
   echo -e "${green}Decryption successful! cf_api_token.txt file generated.${reset}"
 else
   echo -e "${red}Error: cf_api_token.txt-encrypted file not found.${reset}"
