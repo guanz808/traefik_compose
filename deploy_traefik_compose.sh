@@ -58,11 +58,11 @@ cd $TRAEFIK_COMPOSE_DIR
 
 # Check if the .env-encrypted file exists
 if [ -f ".env-encrypted" ]; then
+  read -p "Do you want to decrypt the file? (y/n): " choice
   echo -e "${green}.env-encrypted file found!${reset}"
   
   # Prompt the user to skip or proceed with decryption
-  read -p "Do you want to decrypt the file? (y/n): " choice
-  sleep 5
+  #read -p "Do you want to decrypt the file? (y/n): " choice
   if [ "$choice" = "y" ]; then
     echo -e "${green}Decrypting...${reset}"
     age -d .env-encrypted > .env
