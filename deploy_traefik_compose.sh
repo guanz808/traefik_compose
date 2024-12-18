@@ -13,7 +13,7 @@ TRAEFIK_COMPOSE_DIR="$HOME/docker/traefik_compose"
 ###################################################################################
 # Clone traefik_compose repository (if not already present)
 if [ ! -d $TRAEFIK_COMPOSE_DIR ]; then
-  echo -e "${green}The git repolistory $TRAEFIK_COMPOSE_DIRnot found. Cloning the repository...${reset}"
+  echo -e "${green}The git repolistory $TRAEFIK_COMPOSE_DIR not found. Cloning the repository...${reset}"
   git clone --quiet -b main https://github.com/guanz808/traefik_compose.git $TRAEFIK_COMPOSE_DIR
 else
   echo -e "${green}The git repository $TRAEFIK_COMPOSE_DIR already exists. Updating...${reset}"
@@ -23,8 +23,6 @@ fi
 ###################################################################################
 ## Drcrypt the .env file
 ###################################################################################
-#!/bin/bash
-
 # Check if age is installed
 echo -e "${green}Checking if age is installed...${reset}"
 
