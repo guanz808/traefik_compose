@@ -62,17 +62,18 @@ if [ -f ".env-encrypted" ]; then
   
   # Prompt the user to skip or proceed with decryption
   read -p "Do you want to decrypt the file? (y/n): " choice
-  
-  if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
+  sleep 5
+  if [ "$choice" = "y" ]; then
     echo -e "${green}Decrypting...${reset}"
     age -d .env-encrypted > .env
     echo -e "${green}Decryption successful! .env file generated.${reset}"
   else
-    echo -e "${yellow}Skipping decryption.${reset}"
+    echo -e "${green}Skipping decryption.${reset}"
   fi
 else
   echo -e "${red}Error: .env-encrypted file not found.${reset}"
 fi
+
 
 
 
