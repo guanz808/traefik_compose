@@ -76,6 +76,7 @@ fi
 ###################################################################################
 # Start the Docker stack
 echo -e "${green}Starting Docker stack...#${reset}"
+cd $TRAEFIK_COMPOSE_DIR
 docker compose up -d --force-recreate
 
 # Wait for the stack to start
