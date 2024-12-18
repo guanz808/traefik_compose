@@ -7,15 +7,14 @@ Reference: https://technotim.live/posts/traefik-3-docker-certificates/#links
 1. cd traefik_compose
 1. Traefik Dashboard Password & .env
     1. Create the password if needed
-        1. Install htpasswd on linux to generate the base64 password
-        ```
-        sudo apt update
-        sudo apt install apache2-utils
-        ```
+        1. Install htpasswd on linux to generate the base64 password  
+           `sudo apt update`
+           `sudo apt install apache2-utils`
+    
         1. Generate the credential pair
         `echo $(htpasswd -nB admin) | sed -e s/\\$/\\$\\$/g`
         1. Add the variables to the .env file
-        variables
+        .enf file
         ```
         TRAEFIK_DASHBOARD_CREDENTIALS=admin:<base64_taken>
         CF_API_EMAIL=<email>
