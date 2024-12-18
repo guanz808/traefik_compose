@@ -42,15 +42,29 @@ else
 fi
 
 ###################################################################################
-## Drcrypt the .env file
+## Drcrypt the .env-encrypted file
 ###################################################################################
 # Check if .env-encrypted file exists
 echo -e "${green}Checking for .env-encrypted file...${reset}"
 
 if [ -f ".env-encrypted" ]; then
   echo -e "${green}.env-encrypted file found! Decrypting...${reset}"
-  age --decrypt --output .env .env-encrypted
+  decrypt: age -d .env-encrypted > .env
   echo -e "${green}Decryption successful! .env file generated.${reset}"
+else
+  echo -e "${red}Error: .env-encrypted file not found.${reset}"
+fi
+
+###################################################################################
+## Drcrypt the cf_api_token.txt-encrypted file
+###################################################################################
+# Check if cf_api_token.txt-encrypted file exists
+echo -e "${green}Checking for cf_api_token.txt-encrypted file...${reset}"
+
+if [ -f "cf_api_token.txt-encrypted" ]; then
+  echo -e "${green}cf_api_token.txt-encrypted file found! Decrypting...${reset}"
+  age -d cf_api_token.txt-encrtpted > cf_api_token.txt
+  echo -e "${green}Decryption successful! cf_api_token.txt file generated.${reset}"
 else
   echo -e "${red}Error: .env-encrypted file not found.${reset}"
 fi
