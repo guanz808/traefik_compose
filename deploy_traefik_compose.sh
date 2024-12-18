@@ -87,19 +87,19 @@ else
   echo -e "${green}acme.json file created successfully.${reset}"
 fi
 
-## Set permissions to 600
-#echo -e "${green}Setting permissions to 600...${reset}"
-#chmod 600 acme.json
-#echo -e "$Permissions set to 600 successfully.${reset}"
-#
-## Verify permissions
-#echo -e "${green}Verifying permissions...${reset}"
-#ls -l acme.json | grep "rw-------"
-#if [ $? -eq 0 ]; then
-#  echo -e "${green}Permissions verified successfully.${reset}"
-#else
-#  echo -e "${red}Error: Permissions not set correctly.${reset}"
-#fi
+# Set permissions to 600
+echo -e "${green}Setting permissions to 600...${reset}"
+sudo chmod 600 acme.json
+echo -e "$Permissions set to 600 successfully.${reset}"
+
+# Verify permissions
+echo -e "${green}Verifying permissions...${reset}"
+ls -l acme.json | grep "rw-------"
+if [ $? -eq 0 ]; then
+  echo -e "${green}Permissions verified successfully.${reset}"
+else
+  echo -e "${red}Error: Permissions not set correctly.${reset}"
+fi
 
 ###################################################################################
 ## Start the Docker Compose stack
@@ -107,6 +107,7 @@ fi
 # Start the Docker stack
 echo -e "${green}Starting Docker stack...#${reset}"
 cd $TRAEFIK_COMPOSE_DIR
+
 docker compose up -d --force-recreate
 
 # Wait for the stack to start
@@ -114,11 +115,12 @@ echo -e "${green}Waiting for the stack to start...${reset}"
 sleep 5
 
 # Check if the stack is running
-echo -e "${green}Checking if the stack is running...${reset}"
-stack_status=$(docker ps traefik --format "{{.CurrentState}}" | head -n 1)
-
-if [ "$stack_status" == "Running" ]; then
-  echo -e "${green}Stack is running!${reset}"
-else
-  echo -e "${red}Error: Stack is not running. Status: $stack_status${reset}"
-fi
+#echo -e "${green}Checking if the stack is running...${reset}"
+#stack_status=$(docker ps traefik --format "{{.CurrentState}}" | head -n 1)
+docker ps | grep traefik
+docker logs traefik
+#if [ "$stack_status" == "Running" ]; then
+#  echo -e "${green}Stack is running!${reset}"
+#else
+#  echo -e "${red}Error: Stack is not running. Status: $stack_status${reset}"
+#fi
