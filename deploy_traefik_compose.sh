@@ -87,19 +87,19 @@ else
   echo -e "${green}acme.json file created successfully.${reset}"
 fi
 
-# Set permissions to 600
-echo -e "${green}Setting permissions to 600...${reset}"
-chmod 600 acme.json
-echo -e "$Permissions set to 600 successfully.${reset}"
-
-# Verify permissions
-echo -e "${green}Verifying permissions...${reset}"
-ls -l acme.json | grep "rw-------"
-if [ $? -eq 0 ]; then
-  echo -e "${green}Permissions verified successfully.${reset}"
-else
-  echo -e "${red}Error: Permissions not set correctly.${reset}"
-fi
+## Set permissions to 600
+#echo -e "${green}Setting permissions to 600...${reset}"
+#chmod 600 acme.json
+#echo -e "$Permissions set to 600 successfully.${reset}"
+#
+## Verify permissions
+#echo -e "${green}Verifying permissions...${reset}"
+#ls -l acme.json | grep "rw-------"
+#if [ $? -eq 0 ]; then
+#  echo -e "${green}Permissions verified successfully.${reset}"
+#else
+#  echo -e "${red}Error: Permissions not set correctly.${reset}"
+#fi
 
 ###################################################################################
 ## Start the Docker Compose stack
