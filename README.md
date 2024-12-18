@@ -12,7 +12,7 @@ Reference: https://technotim.live/posts/traefik-3-docker-certificates/#links
         1. Generate the credential pair
         `echo $(htpasswd -nB admin) | sed -e s/\\$/\\$\\$/g`
         1. Add the variables to the .env file
-        .enf file
+        .env file
         ```
         TRAEFIK_DASHBOARD_CREDENTIALS=admin:<base64_taken>
         CF_API_EMAIL=<email>
