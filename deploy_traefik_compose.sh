@@ -68,7 +68,7 @@ if [ -f ".env-encrypted" ]; then
     age -d .env-encrypted > .env
     echo -e "${green}Decryption successful! .env file generated.${reset}"
   else
-    echo -e "${yellow}Skipping decryption.${reset}"
+    echo -e "${green}Skipping decryption.${reset}"
   fi
 else
   echo -e "${red}Error: .env-encrypted file not found.${reset}"
