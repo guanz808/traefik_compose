@@ -72,6 +72,35 @@ else
 fi
 
 ###################################################################################
+## Check for acme.json file
+###################################################################################
+# Check if acme.json file exists in /data
+echo -e "${green}Checking for acme.json file in /data...${reset}"
+cd $TRAEFIK_COMPOSE_DIR
+
+if [ -f "/data/acme.json" ]; then
+  echo -e "${green}acme.json file already exists in /data.${reset}"
+else
+  echo -e "${red}acme.json file not found in /data. Creating...${reset}"
+  touch /data/acme.json
+  echo -e "${green}acme.json file created successfully.${reset}"
+fi
+
+# Set permissions to 600
+echo -e "${green}Setting permissions to 600...${reset}"
+chmod 600 /data/acme.json
+echo -e "$Permissions set to 600 successfully.${reset}"
+
+# Verify permissions
+echo -e "${green}Verifying permissions...${reset}"
+ls -l /data/acme.json | grep "rw-------"
+if [ $? -eq 0 ]; then
+  echo -e "${green}Permissions verified successfully.${reset}"
+else
+  echo -e "${red}Error: Permissions not set correctly.${reset}"
+fi
+
+###################################################################################
 ## Start the Docker Compose stack
 ###################################################################################
 # Start the Docker stack
