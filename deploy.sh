@@ -142,3 +142,5 @@ docker compose up -d --force-recreate
 sleep 2
 docker ps | grep traefik
 docker logs traefik
+
+git rebase
