@@ -55,12 +55,12 @@ cd $TRAEFIK_COMPOSE_DIR
 #else
 #  echo -e "${red}Error: .env-encrypted file not found.${reset}"
 #fi
-
+read -s KEY
 # Check if the .env-encrypted file exists
 if [ -f ".env-encrypted" ]; then
     echo -e "${green}.env-encrypted file found!${reset}"
     read -p "Do you want to decrypt the file? (y/n): " choice
-    read -s KEY
+    
 
   # Prompt the user to skip or proceed with decryption
   #read -p "Do you want to decrypt the file? (y/n): " choice
