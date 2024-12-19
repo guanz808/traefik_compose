@@ -21,6 +21,12 @@ else
 fi
 
 ###################################################################################
+## Make deploy.sh executable
+###################################################################################
+cd $TRAEFIK_COMPOSE_DIR
+chmod +x deploy.sh
+
+###################################################################################
 ## Install age (if not already present) - age is used to encrypt/decrypt files
 ###################################################################################
 # Check if age is installed
@@ -77,7 +83,6 @@ fi
 # Check if acme.json file exists in /data
 echo -e "${green}Checking for acme.json file in /data...${reset}"
 cd $TRAEFIK_COMPOSE_DIR/data
-pwd
 
 if [ -f "acme.json" ]; then
   echo -e "${green}acme.json file already exists in /data.${reset}"
