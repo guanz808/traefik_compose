@@ -146,5 +146,5 @@ docker logs traefik
 #git add .
 #git commit -m "Update traefik stack"
 #git push
-#git rebase   
+#git rebase     
 #git config advice.diverging false     
