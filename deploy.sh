@@ -17,6 +17,7 @@ if [ ! -d $TRAEFIK_COMPOSE_DIR ]; then
   git clone --quiet -b main https://github.com/guanz808/traefik_compose.git $TRAEFIK_COMPOSE_DIR
 else
   echo -e "${green}The git repository $TRAEFIK_COMPOSE_DIR already exists. Updating...${reset}"
+  git reset --hard origin/main
   git -C $TRAEFIK_COMPOSE_DIR pull origin main #--quiet 
 fi
 
