@@ -135,20 +135,14 @@ fi
 echo -e "${green}Checking for acme.json file in /data...${reset}"
 cd $TRAEFIK_COMPOSE_DIR/data
 
-if [ -f "acme.json" ]; then
-  echo -e "${green}acme.json file already exists in /data.${reset}"
-else
+if [ ! -f "acme.json" ]; then
   echo -e "${red}acme.json file not found in /data. Creating...${reset}"
   touch acme.json
   echo -e "${green}acme.json file created successfully.${reset}"
 fi
 
-# Check if permissions are already set to 600
-current_permissions=$(stat -c '%a' acme.json)
-if [ "$current_permissions" = "600" ]; then
-  echo -e "${green}Permissions are already set to 600. Skipping permission verification.${reset}"
-else
-  # Set permissions to 600
+# Check and set permissions to 600 if not already set
+if [ "$(stat -c '%a' acme.json)" != "600" ]; then
   echo -e "${green}Setting permissions to 600...${reset}"
   sudo chmod 600 acme.json
   echo -e "${green}Permissions set to 600 successfully.${reset}"
@@ -161,6 +155,7 @@ else
     echo -e "${red}File does not have 600 permissions${reset}"
   fi
 fi
+
 
 
 ###################################################################################
