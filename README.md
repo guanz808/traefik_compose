@@ -44,7 +44,10 @@ This script does the following:
 
 deploy_traefik_compose.sh 
 ```
-wget -O - https://raw.githubusercontent.com/guanz808/traefik_compose/main/deploy_traefik_compose.sh | bash
+#wget -O - https://raw.githubusercontent.com/guanz808/traefik_compose/main/deploy.sh | bash
+wget -O - https://raw.githubusercontent.com/guanz808/traefik_compose/main/deploy.sh
+chmod +x deploy.sh
+./deploy.sh
 ```
 
 
