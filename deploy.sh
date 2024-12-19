@@ -146,21 +146,22 @@ fi
 # Check if permissions are already set to 600
 current_permissions=$(stat -c '%a' acme.json)
 if [ "$current_permissions" = "600" ]; then
-  echo -e "${green}Permissions are already set to 600.${reset}"
+  echo -e "${green}Permissions are already set to 600. Skipping permission verification.${reset}"
 else
   # Set permissions to 600
   echo -e "${green}Setting permissions to 600...${reset}"
   sudo chmod 600 acme.json
   echo -e "${green}Permissions set to 600 successfully.${reset}"
+
+  # Verify permissions
+  echo -e "${green}Verifying permissions...${reset}"
+  if [ "$(stat -c '%a' acme.json)" = "600" ]; then
+    echo -e "${green}File has 600 permissions${reset}"
+  else
+    echo -e "${red}File does not have 600 permissions${reset}"
+  fi
 fi
 
-# Verify permissions
-echo -e "${green}Verifying permissions...${reset}"
-if [ "$(stat -c '%a' acme.json)" = "600" ]; then
-  echo -e "${green}File has 600 permissions${reset}"
-else
-  echo -e "${red}File does not have 600 permissions${reset}"
-fi
 
 ###################################################################################
 ## Start the Docker Compose stack
