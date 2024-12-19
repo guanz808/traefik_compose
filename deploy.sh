@@ -24,10 +24,7 @@ fi
 ###################################################################################
 ## Make deploy.sh executable
 ###################################################################################
-#cd $TRAEFIK_COMPOSE_DIR
-#chmod +x deploy.sh
-#ls -l deploy.sh
-
+# Make deploy.sh executable
 cd $TRAEFIK_COMPOSE_DIR
 
 # Check if deploy.sh is executable
@@ -63,38 +60,12 @@ else
 fi
 
 ####################################################################################
-### Drcrypt the .env-encrypted file
+### Prompt to proceed with decryption
 ####################################################################################
-## Check if .env-encrypted file exists
-#echo -e "${green}Checking for .env-encrypted file...${reset}"
-#cd $TRAEFIK_COMPOSE_DIR
-#
-#if [ -f ".env-encrypted" ]; then
-#  echo -e "${green}.env-encrypted file found! Decrypting...${reset}"
-#  age -d .env-encrypted > .env
-#  echo -e "${green}Decryption successful! .env file generated.${reset}"
-#else
-#  echo -e "${red}Error: .env-encrypted file not found.${reset}"
-#fi
-#
-####################################################################################
-### Drcrypt the cf_api_token.txt-encrypted file
-####################################################################################
-## Check if cf_api_token.txt-encrypted file exists
-#echo -e "${green}Checking for cf_api_token.txt-encrypted file...${reset}"
-#cd $TRAEFIK_COMPOSE_DIR
-#
-#if [ -f "cf_api_token.txt-encrypted" ]; then
-#  echo -e "${green}cf_api_token.txt-encrypted file found! Decrypting...${reset}"
-#  age -d cf_api_token.txt-encrypted > cf_api_token.txt
-#  echo -e "${green}Decryption successful! cf_api_token.txt file generated.${reset}"
-#else
-#  echo -e "${red}Error: cf_api_token.txt-encrypted file not found.${reset}"
-#fi
-
 ## Prompt to proceed with decryption
 read -p "Do you want to proceed with decryption? (y/n): " choice
 
+###################################################################################
 ## Decrypt the .env-encrypted file
 ###################################################################################
 # Check if .env-encrypted file exists
@@ -132,7 +103,6 @@ else
   echo -e "${red}Error: cf_api_token.txt-encrypted file not found.${reset}"
 fi
 
-
 ###################################################################################
 ## Check for acme.json file
 ###################################################################################
@@ -169,17 +139,6 @@ echo -e "${green}Starting Docker stack...#${reset}"
 cd $TRAEFIK_COMPOSE_DIR
 
 docker compose up -d --force-recreate
-
-# Wait for the stack to start
-echo -e "${green}Waiting for the stack to start...${reset}"
-
-# Check if the stack is running
-#echo -e "${green}Checking if the stack is running...${reset}"
-#stack_status=$(docker ps traefik --format "{{.CurrentState}}" | head -n 1)
+sleep 2
 docker ps | grep traefik
 docker logs traefik
-#if [ "$stack_status" == "Running" ]; then
-#  echo -e "${green}Stack is running!${reset}"
-#else
-#  echo -e "${red}Error: Stack is not running. Status: $stack_status${reset}"
-#fi
