@@ -26,6 +26,7 @@ fi
 cd $TRAEFIK_COMPOSE_DIR
 chmod +x deploy.sh
 ls -l deploy.sh
+
 ###################################################################################
 ## Install age (if not already present) - age is used to encrypt/decrypt files
 ###################################################################################
