@@ -138,13 +138,4 @@ cd $TRAEFIK_COMPOSE_DIR
 
 docker compose up -d --force-recreate
 docker ps | grep traefik
-docker logs traefik
-
-###################################################################################
-## Commit changes
-###################################################################################
-#git add .
-#git commit -m "Update traefik stack"
-#git push
-#git rebase     
-#git config advice.diverging false     
+docker logs traefik 
