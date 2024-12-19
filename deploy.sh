@@ -148,4 +148,4 @@ git add .
 git commit -m "Update traefik stack"
 git push
 #git rebase   
-#git config advice.diverging false
+#git config advice.diverging false  
