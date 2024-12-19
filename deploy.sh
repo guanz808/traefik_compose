@@ -156,8 +156,6 @@ if [ "$(stat -c '%a' acme.json)" != "600" ]; then
   fi
 fi
 
-
-
 ###################################################################################
 ## Start the Docker Compose stack
 ###################################################################################
@@ -166,8 +164,12 @@ echo -e "${green}Starting Docker stack...#${reset}"
 cd $TRAEFIK_COMPOSE_DIR
 
 docker compose up -d --force-recreate
-sleep 2
 docker ps | grep traefik
 docker logs traefik
 
-git rebase
+###################################################################################
+## Commit changes
+###################################################################################
+git add .
+git commit -m "Update traefik stack"
+#git rebase
