@@ -36,8 +36,6 @@ else
   echo -e "${green}deploy.sh is now executable.${reset}"
 fi
 
-ls -l deploy.sh
-
 ###################################################################################
 ## Install age (if not already present) - age is used to encrypt/decrypt files
 ###################################################################################
@@ -106,31 +104,6 @@ fi
 ###################################################################################
 ## Check for acme.json file
 ###################################################################################
-## Check if acme.json file exists in /data
-#echo -e "${green}Checking for acme.json file in /data...${reset}"
-#cd $TRAEFIK_COMPOSE_DIR/data
-#
-#if [ -f "acme.json" ]; then
-#  echo -e "${green}acme.json file already exists in /data.${reset}"
-#else
-#  echo -e "${red}acme.json file not found in /data. Creating...${reset}"
-#  touch acme.json
-#  echo -e "${green}acme.json file created successfully.${reset}"
-#fi
-#
-## Set permissions to 600
-#echo -e "${green}Setting permissions to 600...${reset}"
-#sudo chmod 600 acme.json
-#echo -e "$Permissions set to 600 successfully.${reset}"
-#
-## Verify permissions
-#echo -e "${green}Verifying permissions...${reset}"
-#if [ "$(stat -c '%a' acme.json)" = "600" ]; then
-#  echo -e "${green}File has 600 permissions${reset}"
-#else
-#  echo -e "${red}File does not have 600 permissions${reset}"
-#fi
-
 # Check if acme.json file exists in /data
 echo -e "${green}Checking for acme.json file in /data...${reset}"
 cd $TRAEFIK_COMPOSE_DIR/data
