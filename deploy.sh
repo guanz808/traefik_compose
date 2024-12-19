@@ -48,35 +48,13 @@ fi
 echo -e "${green}Checking for .env-encrypted file...${reset}"
 cd $TRAEFIK_COMPOSE_DIR
 
-#if [ -f ".env-encrypted" ]; then
-#  echo -e "${green}.env-encrypted file found! Decrypting...${reset}"
-#  age -d .env-encrypted > .env
-#  echo -e "${green}Decryption successful! .env file generated.${reset}"
-#else
-#  echo -e "${red}Error: .env-encrypted file not found.${reset}"
-#fi
-read -s KEY
-# Check if the .env-encrypted file exists
 if [ -f ".env-encrypted" ]; then
-    echo -e "${green}.env-encrypted file found!${reset}"
-    read -p "Do you want to decrypt the file? (y/n): " choice
-    
-
-  # Prompt the user to skip or proceed with decryption
-  #read -p "Do you want to decrypt the file? (y/n): " choice
-  if [ "$KEY" = "y" ]; then
-    echo -e "${green}Decrypting...${reset}"
-    age -d .env-encrypted > .env
-    echo -e "${green}Decryption successful! .env file generated.${reset}"
-  else
-    echo -e "${green}Skipping decryption.${reset}"
-  fi
+  echo -e "${green}.env-encrypted file found! Decrypting...${reset}"
+  age -d .env-encrypted > .env
+  echo -e "${green}Decryption successful! .env file generated.${reset}"
 else
   echo -e "${red}Error: .env-encrypted file not found.${reset}"
 fi
-
-
-
 
 ###################################################################################
 ## Drcrypt the cf_api_token.txt-encrypted file
