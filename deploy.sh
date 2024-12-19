@@ -18,7 +18,6 @@ if [ ! -d $TRAEFIK_COMPOSE_DIR ]; then
 else
   echo -e "${green}The git repository $TRAEFIK_COMPOSE_DIR already exists. Updating...${reset}"
   #git reset --hard origin/main  
-  #git rebase
   git -C $TRAEFIK_COMPOSE_DIR pull origin main #--quiet 
 fi
 
