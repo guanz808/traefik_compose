@@ -21,6 +21,12 @@ else
   git -C $TRAEFIK_COMPOSE_DIR pull origin main #--quiet 
 fi
 
+# This will prevent Git from tracking changes to file permissions, so any changes to file modes 
+#(like making a file executable) will not be detected or committed.
+#git config core.fileMode false
+git -C $TRAEFIK_COMPOSE_DIR config --local core.fileMode true
+
+
 ###################################################################################
 ## Make deploy.sh executable - note deploy.sh file needs to marked as executable
 ## pushing to github otherwise there will be a merge conflict
