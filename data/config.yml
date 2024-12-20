@@ -10,17 +10,6 @@ http:
         - https-redirectscheme
       tls: {}
       service: synology
-    hubitat:
-      entryPoints:
-        - "https"
-      rule: "Host(`hubitat.dajays.com`)"
-      middlewares:
-        - default-headers
-        - https-redirectscheme
-        #- hubitat
-      tls: {}
-      service: hubitat
-  
 #endregion
 #region services
   services:
@@ -28,12 +17,7 @@ http:
       loadBalancer:
         servers:
           - url: "https://10.69.5.11:5001/"
-        passHostHeader: true
-    hubitat:
-      loadBalancer:
-        servers:
-          - url: "https://10.69.3.22/"
-        #passHostHeader: true        
+        passHostHeader: true    
 #endregion
   middlewares:
     https-redirectscheme:
@@ -52,14 +36,6 @@ http:
         customFrameOptionsValue: SAMEORIGIN
         customRequestHeaders:
           X-Forwarded-Proto: https
-    hubitat:
-      headers:
-        customRequestHeaders:
-          X-Forwarded-Proto: "https"
-      retry:
-        attempts: 3
-      circuitBreaker:
-        expression: "NetworkErrorRatio() > 0.5"
     default-whitelist:
       ipAllowList:
         sourceRange:
