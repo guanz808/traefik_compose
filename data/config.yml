@@ -1,0 +1,51 @@
+http:
+ #region routers 
+  routers:
+    proxmox:
+      entryPoints:
+        - "https"
+      rule: "Host(`synas.dajays.com`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: synology
+    pihole:
+  
+#endregion
+#region services
+  services:
+    synology:
+      loadBalancer:
+        servers:
+          - url: "https://synas:5001"
+        passHostHeader: true
+#endregion
+  middlewares:
+    https-redirectscheme:
+      redirectScheme:
+        scheme: https
+        permanent: true
+    default-headers:
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 15552000
+        customFrameOptionsValue: SAMEORIGIN
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+
+    default-whitelist:
+      ipAllowList:
+        sourceRange:
+        - "10.69.0.0/16"
+
+    secured:
+      chain:
+        middlewares:
+        - default-whitelist
+        - default-headers
