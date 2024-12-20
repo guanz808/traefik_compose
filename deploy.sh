@@ -25,17 +25,17 @@ fi
 ## Make deploy.sh executable - note deploy.sh file needs to marked as executable
 ## pushing to github otherwise there will be a merge conflict
 ###################################################################################
-## Make deploy.sh executable
-#cd $TRAEFIK_COMPOSE_DIR
-#
-## Check if deploy.sh is executable
-#if [ -x "deploy.sh" ]; then
-#  echo -e "${green}deploy.sh is already executable.${reset}"
-#else
-#  echo -e "${red}deploy.sh is not executable. Changing permissions...${reset}"
-#  chmod +x deploy.sh
-#  echo -e "${green}deploy.sh is now executable.${reset}"
-#fi
+# Make deploy.sh executable
+cd $TRAEFIK_COMPOSE_DIR
+
+# Check if deploy.sh is executable
+if [ -x "deploy.sh" ]; then
+  echo -e "${green}deploy.sh is already executable.${reset}"
+else
+  echo -e "${red}deploy.sh is not executable. Changing permissions...${reset}"
+  chmod +x deploy.sh
+  echo -e "${green}deploy.sh is now executable.${reset}"
+fi
 
 ###################################################################################
 ## Install age (if not already present) - age is used to encrypt/decrypt files
