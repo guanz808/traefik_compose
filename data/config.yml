@@ -18,7 +18,7 @@ http:
     synology:
       loadBalancer:
         servers:
-          - url: "https://synas:5001"
+          - url: "https://synas.dajays.com:5001"
         passHostHeader: true
 #endregion
   middlewares:
