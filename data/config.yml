@@ -32,7 +32,7 @@ http:
     hubitat:
       loadBalancer:
         servers:
-          - url: "https://10.69.3.22/"
+          - url: "http://10.69.3.22/"
         passHostHeader: true        
 #endregion
   middlewares:
