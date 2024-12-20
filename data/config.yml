@@ -10,7 +10,15 @@ http:
         - https-redirectscheme
       tls: {}
       service: synology
-    pihole:
+    hubitat:
+      entryPoints:
+        - "https"
+      rule: "Host(`hubitat.dajays.com`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: hubitat
   
 #endregion
 #region services
@@ -20,6 +28,11 @@ http:
         servers:
           - url: "https://10.69.5.11:5001/"
         passHostHeader: true
+    hubitat:
+      loadBalancer:
+        servers:
+          - url: "https://http://10.69.3.22/"
+        passHostHeader: true        
 #endregion
   middlewares:
     https-redirectscheme:
