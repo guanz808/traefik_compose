@@ -56,8 +56,6 @@ http:
       headers:
         customRequestHeaders:
           X-Forwarded-Proto: "https"
-        customResponseHeaders:
-          X-Custom-Header: "CustomValue"
       retry:
         attempts: 3
       circuitBreaker:
