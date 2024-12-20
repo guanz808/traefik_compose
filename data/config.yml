@@ -15,8 +15,9 @@ http:
         - "https"
       rule: "Host(`hubitat.dajays.com`)"
       middlewares:
-        - default-headers
-        - https-redirectscheme
+        #- default-headers
+        #- https-redirectscheme
+        - hubitat
       tls: {}
       service: hubitat
   
@@ -51,7 +52,16 @@ http:
         customFrameOptionsValue: SAMEORIGIN
         customRequestHeaders:
           X-Forwarded-Proto: https
-
+    hubitat:
+      headers:
+        customRequestHeaders:
+          X-Forwarded-Proto: "https"
+        customResponseHeaders:
+          X-Custom-Header: "CustomValue"
+      retry:
+        attempts: 3
+      circuitBreaker:
+        expression: "NetworkErrorRatio() > 0.5"
     default-whitelist:
       ipAllowList:
         sourceRange:
