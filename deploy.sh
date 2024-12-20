@@ -22,7 +22,8 @@ else
 fi
 
 # This will prevent Git from tracking changes to file permissions, so any changes to file modes 
-#(like making a file executable) will not be detected or committed.
+#(like making a file executable) will not be detected or committed. This is used with the when
+# setting the permissions ondeploy.sh to executable 
 git -C $TRAEFIK_COMPOSE_DIR config --local core.fileMode false
 
 ###################################################################################
