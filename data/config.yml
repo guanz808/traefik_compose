@@ -17,7 +17,7 @@ http:
       middlewares:
         - default-headers
         - https-redirectscheme
-        - hubitat
+        #- hubitat
       tls: {}
       service: hubitat
   
