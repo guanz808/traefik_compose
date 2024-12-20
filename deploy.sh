@@ -141,6 +141,7 @@ fi
 echo -e "${green}Starting Docker stack...#${reset}"
 cd $TRAEFIK_COMPOSE_DIR
 
+docker down
 docker compose up -d --force-recreate
 docker ps | grep traefik
 docker logs traefik 
