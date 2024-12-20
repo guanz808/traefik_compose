@@ -15,8 +15,8 @@ http:
         - "https"
       rule: "Host(`hubitat.dajays.com`)"
       middlewares:
-        #- default-headers
-        #- https-redirectscheme
+        - default-headers
+        - https-redirectscheme
       tls: {}
       service: hubitat
   
@@ -41,7 +41,7 @@ http:
         permanent: true
     default-headers:
       headers:
-        frameDeny: true
+        frameDeny: false
         browserXssFilter: true
         contentTypeNosniff: true
         forceSTSHeader: true
