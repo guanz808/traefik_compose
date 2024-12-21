@@ -1,7 +1,7 @@
 http:
  #region routers 
   routers:
-    synology:
+    synas:
       entryPoints:
         - "https"
       rule: "Host(`synas.dajays.com`)"
@@ -9,15 +9,29 @@ http:
         - default-headers
         - https-redirectscheme
       tls: {}
-      service: synology
+      service: synas
+    photos:
+      entryPoints:
+        - "https"
+      rule: "Host(`photos.dajays.com`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: photos     
 #endregion
 #region services
   services:
-    synology:
+    synas:
       loadBalancer:
         servers:
           - url: "https://10.69.5.11:5001/"
-        passHostHeader: true    
+        passHostHeader: true 
+    photos:
+      loadBalancer:
+        servers:
+          - url: "https://10.69.5.11:5443/"
+        passHostHeader: true             
 #endregion
   middlewares:
     https-redirectscheme:
