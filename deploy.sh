@@ -6,31 +6,31 @@ green='\033[0;32m'
 reset='\033[0m'
 
 # Paths
-TRAEFIK_COMPOSE_DIR="$HOME/docker/traefik_compose"
+COMPOSE_DIR="$HOME/docker/traefik_compose"
 
 ###################################################################################
 ## Clone the Github repository
 ###################################################################################
 # Clone traefik_compose repository (if not already present)
-if [ ! -d $TRAEFIK_COMPOSE_DIR ]; then
-  echo -e "${green}The git repolistory $TRAEFIK_COMPOSE_DIR not found. Cloning the repository...${reset}"
-  git clone --quiet -b main https://github.com/guanz808/traefik_compose.git $TRAEFIK_COMPOSE_DIR
+if [ ! -d $COMPOSE_DIR ]; then
+  echo -e "${green}The git repolistory $COMPOSE_DIR not found. Cloning the repository...${reset}"
+  git clone --quiet -b main https://github.com/guanz808/traefik_compose.git $COMPOSE_DIR
 else
-  echo -e "${green}The git repository $TRAEFIK_COMPOSE_DIR already exists. Updating...${reset}"
-  git -C $TRAEFIK_COMPOSE_DIR pull origin main #--quiet 
+  echo -e "${green}The git repository $COMPOSE_DIR already exists. Updating...${reset}"
+  git -C $COMPOSE_DIR pull origin main #--quiet 
 fi
 
 # This will prevent Git from tracking changes to file permissions, so any changes to file modes 
 #(like making a file executable) will not be detected or committed. This is used with the when
 # setting the permissions ondeploy.sh to executable 
-git -C $TRAEFIK_COMPOSE_DIR config --local core.fileMode false
+git -C $COMPOSE_DIR config --local core.fileMode false
 
 ###################################################################################
 ## Make deploy.sh executable - note deploy.sh file needs to marked as executable
 ## pushing to github otherwise there will be a merge conflict
 ###################################################################################
 # Make deploy.sh executable
-cd $TRAEFIK_COMPOSE_DIR
+cd $COMPOSE_DIR
 
 # Check if deploy.sh is executable
 if [ -x "deploy.sh" ]; then
@@ -73,7 +73,7 @@ read -p "Do you want to proceed with decryption? (y/n): " choice
 ###################################################################################
 # Check if .env-encrypted file exists
 echo -e "${green}Checking for .env-encrypted file...${reset}"
-cd $TRAEFIK_COMPOSE_DIR
+cd $COMPOSE_DIR
 
 if [ -f ".env-encrypted" ]; then
   if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
@@ -92,7 +92,7 @@ fi
 ###################################################################################
 # Check if cf_api_token.txt-encrypted file exists
 echo -e "${green}Checking for cf_api_token.txt-encrypted file...${reset}"
-cd $TRAEFIK_COMPOSE_DIR
+cd $COMPOSE_DIR
 
 if [ -f "cf_api_token.txt-encrypted" ]; then
   if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
@@ -111,7 +111,7 @@ fi
 ###################################################################################
 # Check if acme.json file exists in /data
 echo -e "${green}Checking for acme.json file in /data...${reset}"
-cd $TRAEFIK_COMPOSE_DIR/data
+cd $COMPOSE_DIR/data
 
 if [ ! -f "acme.json" ]; then
   echo -e "${red}acme.json file not found in /data. Creating...${reset}"
@@ -139,7 +139,7 @@ fi
 ###################################################################################
 # Start the Docker stack
 echo -e "${green}Starting Docker stack...#${reset}"
-cd $TRAEFIK_COMPOSE_DIR
+cd $COMPOSE_DIR
 
 docker compose down
 docker compose up -d --force-recreate
