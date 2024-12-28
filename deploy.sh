@@ -5,7 +5,8 @@ red='\033[0;31m'
 green='\033[0;32m'
 reset='\033[0m'
 
-# Paths
+# Variables
+CONTAINER_NAME="traefik"
 DOCKER_COMPOSE_DIR="$HOME/docker/traefik_compose"
 GITHUB_REPO="https://github.com/guanz808/traefik_compose.git"
 
@@ -21,9 +22,9 @@ else
   git -C $DOCKER_COMPOSE_DIR pull origin main #--quiet 
 fi
 
-# This will prevent Git from tracking changes to file permissions, so any changes to file modes 
-#(like making a file executable) will not be detected or committed. This is used with the when
-# setting the permissions ondeploy.sh to executable 
+# This will prevent Git from tracking changes to file permissions of deploy.sh in docker compose directory.
+# If not set, doing a git pull it will prompt a merge conflict for deploy.sh file.  This is because the local deploy.sh 
+# file is marked as executable but the one being pulled from the GitHub repository is not.
 git -C $DOCKER_COMPOSE_DIR config --local core.fileMode false
 
 ###################################################################################
@@ -144,5 +145,5 @@ cd $DOCKER_COMPOSE_DIR
 
 docker compose down
 docker compose up -d --force-recreate
-docker ps | grep traefik
-docker logs traefik 
+docker ps | grep $CONTAINER_NAME
+docker logs $CONTAINER_NAME
