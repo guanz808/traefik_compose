@@ -19,6 +19,15 @@ http:
         - https-redirectscheme
       tls: {}
       service: photos
+    drive:
+      entryPoints:
+        - "https"
+      rule: "Host(`drive.dajays.com`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: drive      
     hubitat:
       entryPoints:
         - "https"
