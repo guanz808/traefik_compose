@@ -50,6 +50,11 @@ http:
         servers:
           - url: "https://10.69.5.11:5443/"
         passHostHeader: true 
+    drive:
+      loadBalancer:
+        servers:
+          - url: "https://10.69.5.11:1003/"
+        passHostHeader: true         
     hubitat:
       loadBalancer:
         servers:
