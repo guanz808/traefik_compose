@@ -1,15 +1,15 @@
 http:
  #region routers 
   routers:
-    synas:
-      entryPoints:
-        - "https"
-      rule: "Host(`synas.dajays.com`)"
-      middlewares:
-        - default-headers
-        - https-redirectscheme
-      tls: {}
-      service: synas
+#    synas:
+#      entryPoints:
+#        - "https"
+#      rule: "Host(`synas.dajays.com`)"
+#      middlewares:
+#        - default-headers
+#        - https-redirectscheme
+#      tls: {}
+#      service: synas
     photos:
       entryPoints:
         - "https"
@@ -40,11 +40,11 @@ http:
 #endregion
 #region services
   services:
-    synas:
-      loadBalancer:
-        servers:
-          - url: "https://10.69.5.11:5001/"
-        passHostHeader: true 
+#    synas:
+#      loadBalancer:
+#        servers:
+#          - url: "https://10.69.5.11:5001/"
+#        passHostHeader: true 
     photos:
       loadBalancer:
         servers:
