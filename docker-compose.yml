@@ -13,13 +13,13 @@ services:
       - "8080:8080"
       # - 443:443/tcp # Uncomment if you want HTTP3
       # - 443:443/udp # Uncomment if you want HTTP3
-    command:
-      - "--certificatesresolvers.myresolver.acme.email=${CF_API_EMAIL}"
+#    command:
+#      - "--certificatesresolvers.myresolver.acme.email=${CF_API_EMAIL}"
     environment:
       CF_DNS_API_TOKEN_FILE: /run/secrets/cf_api_token # note using _FILE for docker secrets
       # CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN} # if using .env
-      TRAEFIK_DASHBOARD_CREDENTIALS: ${TRAEFIK_DASHBOARD_CREDENTIALS}
-      CF_API_EMAIL: ${CF_API_EMAIL}
+#      TRAEFIK_DASHBOARD_CREDENTIALS: ${TRAEFIK_DASHBOARD_CREDENTIALS}
+#      CF_API_EMAIL: ${CF_API_EMAIL}
       DOMAIN: ${DOMAIN}  
     secrets:
       - cf_api_token
@@ -28,8 +28,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./config/traefik.yml:/traefik.yml:ro
-      - ./config/acme.json:/acme.json
-      - ./config/config.yml:/config.yml:ro
+#      - ./config/acme.json:/acme.json
+#      - ./config/config.yml:/config.yml:ro
     #labels:
     #  - "traefik.enable=true"
     #  - "traefik.http.routers.traefik.entrypoints=http"
